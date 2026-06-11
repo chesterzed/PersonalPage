@@ -87,7 +87,7 @@ A modular personal portfolio website built with **Django**, **Wagtail CMS**, and
     ```
 2.  **Access the site**: `http://127.0.0.1:8000/`
 
-## Deployment (Mac Mini)
+## Deployment (Mac)
 
 1.  **Permissions**: Make scripts executable: `chmod +x scripts/*.sh`
 2.  **Start Services**: Run `./scripts/start.sh`
