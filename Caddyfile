@@ -1,0 +1,25 @@
+:6969 {
+    log {
+        output file /path/to/caddy.log
+    }
+
+    reverse_proxy 127.0.0.1:8002
+
+    handle_path /static/* {
+        root * /path/to/static
+        file_server
+    }
+
+    handle_path /media/* {
+        root * /path/to/media
+        file_server
+    }
+
+    encode gzip zstd
+
+    header {
+        X-Frame-Options "SAMEORIGIN"
+        X-Content-Type-Options "nosniff"
+        Referrer-Policy "strict-origin-when-cross-origin"
+    }
+}
