@@ -36,6 +36,11 @@
 				opacity: 1;
 			}
 
+			&.wide {
+				width: 90vw;
+				max-width: 1200px;
+			}
+
 			.close {
 				display: block;
 				position: absolute;

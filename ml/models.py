@@ -4,6 +4,7 @@ from wagtail.fields import StreamField
 from wagtail import blocks
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.admin.panels import FieldPanel
+from develop.models import InteractiveEmbedBlock
 
 class MLProjectIndexPage(Page):
     intro = models.TextField(blank=True)
@@ -12,6 +13,15 @@ class MLProjectIndexPage(Page):
     ]
 
 class MLProjectPage(Page):
+    short_description = models.TextField(blank=True, verbose_name="Краткое описание")
+    preview = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name="Превью"
+    )
     body = StreamField([
         ('text', blocks.RichTextBlock(label="Текст")),
         ('image_with_text', blocks.StructBlock([
@@ -19,5 +29,10 @@ class MLProjectPage(Page):
             ('text', blocks.TextBlock(label="Текст")),
         ], label="Картинка с текстом")),
         ('gallery', blocks.ListBlock(ImageChooserBlock(), label="Галерея")),
+        ('interactive', InteractiveEmbedBlock()),
     ], use_json_field=True)
-    content_panels = Page.content_panels + [FieldPanel('body')]
+    content_panels = Page.content_panels + [
+        FieldPanel('short_description'),
+        FieldPanel('preview'),
+        FieldPanel('body')
+    ]

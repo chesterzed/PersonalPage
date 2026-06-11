@@ -1,0 +1,47 @@
+{% load static wagtailimages_tags %}
+
+<div class="interactive-embed-wrapper" style="margin: 2em 0; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; overflow: hidden; background: rgba(0, 0, 0, 0.2);">
+    {% if value.app and value.app.get_index_url %}
+        <div class="embed-preview" style="position: relative; cursor: pointer;" 
+             onclick="const container = this.nextElementSibling; this.style.display='none'; container.style.display='block'; container.querySelector('iframe').src='{{ value.app.get_index_url }}';">
+            
+            {% image value.preview width-1200 as img %}
+            <img src="{{ img.url }}" alt="{{ value.title }}" style="width: 100%; display: block;">
+            
+            <div class="play-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); display: flex; flex-direction: column; align-items: center; justify-content: center; transition: background 0.3s;"
+                 onmouseover="this.style.background='rgba(0,0,0,0.5)'"
+                 onmouseout="this.style.background='rgba(0,0,0,0.3)'">
+                 <i class="icon solid fa-play-circle fa-4x" style="color: white; opacity: 0.8; margin-bottom: 0.2em;"></i>
+                 <span style="color: white; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.8em; font-weight: 600;">Запустить проект</span>
+            </div>
+
+            {% if value.title %}
+                <div style="position: absolute; bottom: 15px; left: 20px; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
+                    <h3 style="margin: 0; border: none; padding: 0;">{{ value.title }}</h3>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="embed-container" style="display: none; position: relative; width: 100%; 
+            {% if '%' in value.aspect_ratio %}
+                padding-top: {{ value.aspect_ratio }};
+            {% else %}
+                height: {{ value.aspect_ratio }};
+            {% endif %}">
+            <iframe src="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
+        </div>
+    {% else %}
+        <div style="padding: 3em; text-align: center; color: rgba(255,255,255,0.7); background: rgba(255,0,0,0.05);">
+            <i class="icon solid fa-exclamation-triangle fa-3x" style="margin-bottom: 0.5em; display: block; color: #ff5555;"></i>
+            <h3 style="margin: 0.5em 0; border: none;">Ошибка загрузки</h3>
+            <p style="margin: 0; font-size: 0.9em;">
+                {% if not value.app %}
+                    Приложение не выбрано в админке.
+                {% else %}
+                    Файл <code>index.html</code> не найден в извлеченных файлах архива.<br>
+                    Проверьте содержимое ZIP-файла.
+                {% endif %}
+            </p>
+        </div>
+    {% endif %}
+</div>

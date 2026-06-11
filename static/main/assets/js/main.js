@@ -294,23 +294,65 @@
 				// Close.
 					$('<div class="close">Close</div>')
 						.appendTo($this)
-						.on('click', function() {
-							location.hash = '';
+						.on('click', function(event) {
+							if ($this.attr('id') === 'project') {
+								location.hash = '#work';
+							} else {
+								location.hash = '';
+							}
 						});
 
 				// Prevent clicks from inside article from bubbling.
 					$this.on('click', function(event) {
+						
+						// --- Project Expansion Logic ---
+						var $target = $(event.target);
+						var $summary = $target.closest('.project-summary');
+
+						if ($summary.length > 0) {
+							var pageId = $summary.attr('data-page-id');
+							var $projectContainer = $('#project-content-container');
+
+							$projectContainer.html('<div class="loading-spinner" style="text-align:center; padding: 5em;"><i class="icon solid fa-cog fa-spin fa-2x"></i><br>Загрузка...</div>');
+							location.hash = '#project';
+
+							$.ajax({
+								url: '/api/projects/' + pageId + '/details/',
+								method: 'GET',
+								success: function(html) {
+									$projectContainer.html(html);
+								},
+								error: function() {
+									$projectContainer.html('<p style="text-align:center; color:red;">Ошибка загрузки проекта.</p>');
+								}
+							});
+
+							event.stopPropagation();
+							return;
+						}
+						// -------------------------------
+
 						event.stopPropagation();
 					});
 
 			});
 
 		// Events.
+			function handleArticleClose() {
+				if ($body.hasClass('is-article-visible')) {
+					var $activeArticle = $main_articles.filter('.active');
+					if ($activeArticle.attr('id') === 'project') {
+						location.hash = '#work';
+					} else {
+						$main._hide(true);
+					}
+				}
+			}
+
 			$body.on('click', function(event) {
 
 				// Article visible? Hide.
-					if ($body.hasClass('is-article-visible'))
-						$main._hide(true);
+					handleArticleClose();
 
 			});
 
@@ -321,8 +363,7 @@
 					case 27:
 
 						// Article visible? Hide.
-							if ($body.hasClass('is-article-visible'))
-								$main._hide(true);
+							handleArticleClose();
 
 						break;
 

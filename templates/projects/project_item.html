@@ -1,38 +1,27 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
-<section id="project-details-{{ page.id }}">
-    <h3 class="major">{{ page.title }}</h3>
-    
-    <div class="project-body">
-        {% for block in page.body %}
+<section class="project-item" style="margin-bottom: 2em; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; overflow: hidden; background: rgba(255, 255, 255, 0.05); transition: all 0.3s ease;">
+    <div class="project-summary" style="padding: 1.5em; cursor: pointer; display: flex; gap: 20px; align-items: flex-start;" 
+         data-page-id="{{ page.id }}"
+         onmouseover="this.parentElement.style.background='rgba(255, 255, 255, 0.08)'" 
+         onmouseout="this.parentElement.style.background='rgba(255, 255, 255, 0.05)'">
+        
+        <div class="project-info" style="flex: 1;">
+            <h3 class="major" style="margin-bottom: 0.5em; border-bottom: none; padding-bottom: 0;">{{ page.title }}</h3>
             
-            {% if block.block_type == 'text' %}
-                <div class="block-text">
-                    {{ block.value|richtext }}
-                </div>
-            
-            {% elif block.block_type == 'image_with_text' %}
-                <div class="block-image-text" style="display: flex; gap: 20px; align-items: center; margin-bottom: 2em;">
-                    <div class="image-wrapper">
-                        {% image block.value.image width-800 as img %}
-                        <img src="{{ img.url }}" alt="{{ img.alt }}" style="max-width: 100%; border-radius: 8px;">
-                    </div>
-                    <div class="text-wrapper">
-                        {{ block.value.text }}
-                    </div>
-                </div>
-
-            {% elif block.block_type == 'gallery' %}
-                <div class="block-gallery" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-bottom: 2em;">
-                    {% for image in block.value %}
-                        {% image image fill-400x400 as gallery_img %}
-                        <img src="{{ gallery_img.url }}" alt="{{ gallery_img.alt }}" style="width: 100%; border-radius: 5px;">
-                    {% endfor %}
-                </div>
-                
+            {% if page.short_description %}
+                <p class="project-short-description" style="margin-bottom: 0; color: rgba(255, 255, 255, 0.7); line-height: 1.5;">
+                    {{ page.short_description|truncatechars:150 }}
+                </p>
             {% endif %}
-            
-        {% endfor %}
+        </div>
+
+        {% if page.preview %}
+            <div class="project-preview-wrapper" style="flex: 0 0 150px; width: 150px; height: 100px; overflow: hidden; border-radius: 4px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                {% image page.preview fill-300x200 as preview_img %}
+                <img src="{{ preview_img.url }}" alt="{{ preview_img.alt }}" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+            </div>
+        {% endif %}
     </div>
 </section>
-<hr />
+<hr style="margin: 2em 0;" />

@@ -1,6 +1,20 @@
 @import url(fontawesome-all.min.css);
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300italic,600italic,300,600");
 
+@font-face {
+	font-family: 'Raleway';
+	src: url('../fonts/Raleway-Light.ttf') format('truetype');
+	font-weight: 300;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Raleway';
+	src: url('../fonts/Raleway-LightItalic.ttf') format('truetype');
+	font-weight: 300;
+	font-style: italic;
+}
+
 /*
 	Dimension by HTML5 UP
 	html5up.net | @ajlkn
@@ -1556,6 +1570,11 @@ input, select, textarea {
 				opacity: 1;
 			}
 
+			#main article.wide {
+				width: 90vw;
+				max-width: 1200px;
+			}
+
 			#main article .close {
 				display: block;
 				position: absolute;
@@ -1656,3 +1675,11 @@ input, select, textarea {
 		body.is-preload #footer {
 			opacity: 0;
 		}
+
+/* Projects */
+
+.project-short-description {
+	font-family: 'Raleway', sans-serif !important;
+	font-weight: 300;
+	font-style: italic;
+}

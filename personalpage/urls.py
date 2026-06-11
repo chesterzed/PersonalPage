@@ -7,11 +7,15 @@ from django.views.generic.base import RedirectView
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
+from personalpage.views import get_project_details
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('cms/', include(wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),
+    
+    # AJAX project details
+    path('api/projects/<int:page_id>/details/', get_project_details, name='project_details_ajax'),
     
     # Redirect root to develop
     path('', RedirectView.as_view(url='/develop/', permanent=False)),

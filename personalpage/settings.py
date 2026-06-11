@@ -157,3 +157,6 @@ WAGTAILADMIN_BASE_URL = 'http://example.com'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Allow iframes from the same origin (needed for Unity/Wasm embeds)
+X_FRAME_OPTIONS = 'SAMEORIGIN'
