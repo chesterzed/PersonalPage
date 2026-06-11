@@ -1,0 +1,11 @@
+[project]
+name = "personalpage"
+version = "0.1.0"
+description = "A personal page built with Django using the Dimension template"
+requires-python = ">=3.10"
+dependencies = [
+    "django>=5.0",
+]
+
+[tool.setuptools]
+packages = ["personalpage"]

@@ -1,0 +1,38 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<section id="project-details-{{ page.id }}">
+    <h3 class="major">{{ page.title }}</h3>
+    
+    <div class="project-body">
+        {% for block in page.body %}
+            
+            {% if block.block_type == 'text' %}
+                <div class="block-text">
+                    {{ block.value|richtext }}
+                </div>
+            
+            {% elif block.block_type == 'image_with_text' %}
+                <div class="block-image-text" style="display: flex; gap: 20px; align-items: center; margin-bottom: 2em;">
+                    <div class="image-wrapper">
+                        {% image block.value.image width-800 as img %}
+                        <img src="{{ img.url }}" alt="{{ img.alt }}" style="max-width: 100%; border-radius: 8px;">
+                    </div>
+                    <div class="text-wrapper">
+                        {{ block.value.text }}
+                    </div>
+                </div>
+
+            {% elif block.block_type == 'gallery' %}
+                <div class="block-gallery" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-bottom: 2em;">
+                    {% for image in block.value %}
+                        {% image image fill-400x400 as gallery_img %}
+                        <img src="{{ gallery_img.url }}" alt="{{ gallery_img.alt }}" style="width: 100%; border-radius: 5px;">
+                    {% endfor %}
+                </div>
+                
+            {% endif %}
+            
+        {% endfor %}
+    </div>
+</section>
+<hr />

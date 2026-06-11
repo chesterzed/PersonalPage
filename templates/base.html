@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE HTML>
+<!--
+	Dimension by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>{% block title %}Dimension{% endblock %}</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="{% static 'main/assets/css/main.css' %}" />
+		<noscript><link rel="stylesheet" href="{% static 'main/assets/css/noscript.css' %}" /></noscript>
+		<style>
+			{% block extra_css %}
+			/* Default background if not overridden */
+			#bg:after {
+				background-image: linear-gradient(to top, rgba(19, 21, 25, 0.5), rgba(19, 21, 25, 0.5)), url("{% static 'main/images/bg.jpg' %}");
+			}
+			{% endblock %}
+		</style>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<div class="logo">
+							<span class="icon fa-gem"></span>
+						</div>
+						<div class="content">
+							<div class="inner">
+								<h1>{% block header_h1 %}Dimension{% endblock %}</h1>
+								<p>{% block header_p %}A fully responsive site template designed by <a href="https://html5up.net">HTML5 UP</a>{% endblock %}</p>
+							</div>
+						</div>
+						<nav>
+							<ul>
+								<li><a href="#about">Обо мне</a></li>
+								<li><a href="#work">Проекты</a></li>
+								<li><a href="#contact">Связаться</a></li>
+								<li><a href="#more">Ещё</a></li>
+							</ul>
+						</nav>
+					</header>
+
+				<!-- Main -->
+					<div id="main">
+
+						{% block content %}{% endblock %}
+
+						<!-- Contact -->
+							<article id="contact">
+								<h2 class="major">Связаться</h2>
+								<form method="post" action="#">
+									<div class="fields">
+										<div class="field half">
+											<label for="name">Имя</label>
+											<input type="text" name="name" id="name" />
+										</div>
+										<div class="field half">
+											<label for="email">Email</label>
+											<input type="text" name="email" id="email" />
+										</div>
+										<div class="field">
+											<label for="message">Сообщение</label>
+											<textarea name="message" id="message" rows="4"></textarea>
+										</div>
+									</div>
+									<ul class="actions">
+										<li><input type="submit" value="Отправить" class="primary" /></li>
+										<li><input type="reset" value="Сброс" /></li>
+									</ul>
+								</form>
+							</article>
+
+						<!-- More -->
+							<article id="more">
+								<h2 class="major">Ещё</h2>
+								<p>Другие мои направления и ресурсы:</p>
+								<div class="table-wrapper">
+									<table>
+										<tbody>
+											<tr>
+												<td><a href="{% url 'index' %}" class="button icon solid fa-code">Разработка</a></td>
+												<td>Перейти к блогу о разработке.</td>
+											</tr>
+											<tr>
+												<td><a href="{% url 'ml_index' %}" class="button icon solid fa-robot">ML</a></td>
+												<td>Исследования и проекты в области машинного обучения.</td>
+											</tr>
+											<tr>
+												<td><a href="{% url 'bioinfo_index' %}" class="button icon solid fa-flask">Биоинформатика</a></td>
+												<td>Анализ биологических данных и вычислительная биология.</td>
+											</tr>
+											<tr>
+												<td><a href="{% url 'printing_index' %}" class="button icon solid fa-cube">3D Печать</a></td>
+												<td>Создание и печать 3D моделей.</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</article>
+
+					</div>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<p class="copyright">&copy; Untitled. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+					</footer>
+
+			</div>
+
+		<!-- BG -->
+			<div id="bg"></div>
+
+		<!-- Scripts -->
+			<script src="{% static 'main/assets/js/jquery.min.js' %}"></script>
+			<script src="{% static 'main/assets/js/browser.min.js' %}"></script>
+			<script src="{% static 'main/assets/js/breakpoints.min.js' %}"></script>
+			<script src="{% static 'main/assets/js/util.js' %}"></script>
+			<script src="{% static 'main/assets/js/main.js' %}"></script>
+
+			{% block extra_js %}{% endblock %}
+
+	</body>
+</html>

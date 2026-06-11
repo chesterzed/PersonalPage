@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}3D Печать - Dimension{% endblock %}
+
+{% block extra_css %}
+#bg:after {
+	background-image: radial-gradient(at 100% 100%, hsla(30,60%,20%,1) 0, transparent 50%), 
+					  radial-gradient(at 0% 0%, hsla(0,0%,15%,1) 0, transparent 50%), 
+					  radial-gradient(at 50% 50%, hsla(15,40%,10%,1) 0, transparent 50%);
+	background-color: #1a0f0a;
+}
+{% endblock %}
+
+{% block header_h1 %}3D Печать{% endblock %}
+{% block header_p %}От идеи до физического воплощения в пластике и металле.{% endblock %}
+
+{% block content %}
+						<article id="about">
+							<h2 class="major">Создание</h2>
+							<p>Проектирование функциональных деталей и декоративных изделий.</p>
+						</article>
+
+						<article id="work">
+							<h2 class="major">Проекты</h2>
+							<div id="projects-container">
+								<!-- Проекты будут загружены сюда через AJAX -->
+							</div>
+							<ul class="actions">
+								<li><button id="load-more-btn" class="primary">Загрузить ещё</button></li>
+							</ul>
+						</article>
+{% endblock %}
+
+{% block extra_js %}
+			<script>
+				$(function() {
+					var currentPage = 1;
+					var $container = $('#projects-container');
+					var $loadMoreBtn = $('#load-more-btn');
+
+					function loadProjects(page) {
+						$.ajax({
+							url: '{% url "printing_load_projects" %}',
+							data: { 'page': page },
+							dataType: 'json',
+							success: function(data) {
+								if (data.html) {
+									$container.append(data.html);
+								}
+								if (!data.has_next) {
+									$loadMoreBtn.hide();
+								} else {
+									$loadMoreBtn.show();
+								}
+							},
+							error: function(xhr, status, error) {
+								console.log('Error loading projects:', error);
+							}
+						});
+					}
+
+					// Initial load
+					loadProjects(currentPage);
+
+					$loadMoreBtn.on('click', function(e) {
+						e.preventDefault();
+						currentPage++;
+						loadProjects(currentPage);
+					});
+				});
+			</script>
+{% endblock %}
