@@ -35,28 +35,23 @@ A modular personal portfolio website built with **Django**, **Wagtail CMS**, and
 
 ### 1. Requirements
 - Python 3.10+
-- Django 5.0+
-- Wagtail 6.0+
+- [Poetry](https://python-poetry.org/docs/#installation)
 
 ### 2. Installation
 1.  **Clone the repository**:
     ```bash
-    git clone <your-repo-url>
+    git clone https://github.com/chesterzed/PersonalPage.git
     cd PersonalPage
     ```
 
-2.  **Create and activate virtual environment**:
+2.  **Install dependencies and create virtual environment**:
     ```bash
-    python -m venv venv
-    # Windows:
-    .\venv\Scripts\activate
-    # Linux/macOS:
-    source venv/bin/activate
+    poetry install
     ```
 
-3.  **Install dependencies**:
+3.  **Activate virtual environment**:
     ```bash
-    pip install django wagtail python-dotenv Pillow
+    poetry shell
     ```
 
 4.  **Configure environment**:
