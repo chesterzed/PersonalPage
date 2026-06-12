@@ -1,25 +1,50 @@
-:6969 {
-    log {
-        output file /path/to/caddy.log
-    }
+domain.ru, www.domain.ru {
+        log {
+                output stderr
+        }
 
-    reverse_proxy 127.0.0.1:8002
+        # Unity WebGL Brotli support
+        @brotli {
+                path *.br
+        }
+        header @brotli Content-Encoding br
 
-    handle_path /static/* {
-        root * /path/to/static
-        file_server
-    }
+        @jsBrotli {
+                path *.js.br
+        }
+        header @jsBrotli Content-Type application/javascript
 
-    handle_path /media/* {
-        root * /path/to/media
-        file_server
-    }
+        @wasmBrotli {
+                path *.wasm.br
+        }
+        header @wasmBrotli Content-Type application/wasm
 
-    encode gzip zstd
+        @dataBrotli {
+                path *.data.br
+        }
+        header @dataBrotli Content-Type application/octet-stream
 
-    header {
-        X-Frame-Options "SAMEORIGIN"
-        X-Content-Type-Options "nosniff"
-        Referrer-Policy "strict-origin-when-cross-origin"
-    }
+        header {
+                X-Frame-Options "SAMEORIGIN"
+                X-Content-Type-Options "nosniff"
+                Referrer-Policy "strict-origin-when-cross-origin"
+        }
+
+        handle_path /static/* {
+                # CHANGE THIS to the absolute path of your static files on the server
+                root * /path/to/static
+                file_server
+        }
+
+        handle_path /media/* {
+                # CHANGE THIS to the absolute path of your media files on the server
+                root * /path/to/media
+                file_server
+        }
+
+        handle {
+                reverse_proxy 127.0.0.1:8002
+        }
+
+        encode gzip zstd
 }

@@ -4,7 +4,7 @@ PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 VENV_PATH="$PROJECT_DIR/venv/bin/activate"
 PID_FILE="$PROJECT_DIR/gunicorn.pid"
 export $(grep -v '^#' "$PROJECT_DIR/.env" | xargs)
-PORT=${GUNICORN_PORT:-8000}
+PORT=${GUNICORN_PORT:-8002}
 
 echo "=========================================="
 echo "Перезапуск PersonalPage..."
@@ -34,7 +34,7 @@ fi
 echo "▶️ Запуск Gunicorn..."
 gunicorn personalpage.wsgi:application \
     --bind 127.0.0.1:$PORT \
-    --workers 3 \
+    --workers 2 \
     --pid "$PID_FILE" \
     --daemon
 
@@ -43,6 +43,15 @@ if [ $? -eq 0 ]; then
 else
     echo "❌ Ошибка при перезапуске Gunicorn!"
     exit 1
+fi
+
+echo "▶️ Попытка перезагрузки Caddy..."
+caddy reload --config ../Caddyfile
+
+if [ $? -eq 0 ]; then
+    echo "✅ Caddy успешно перезагружен."
+else
+    echo "ℹ️ Caddy не перезагружен (возможно, он не запущен или требует sudo)."
 fi
 
 echo "=========================================="
