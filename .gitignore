@@ -143,3 +143,5 @@ cython_debug/
 # Operating System stuff
 .DS_Store
 Thumbs.db
+
+gunicorn.pid
