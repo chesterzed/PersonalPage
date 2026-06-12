@@ -55,19 +55,20 @@
 						<!-- Contact -->
 							<article id="contact">
 								<h2 class="major">Связаться</h2>
-								<form method="post" action="#">
+								<form method="post" action="{% url 'contact_submit' %}">
+									{% csrf_token %}
 									<div class="fields">
 										<div class="field half">
 											<label for="name">Имя</label>
-											<input type="text" name="name" id="name" />
+											<input type="text" name="name" id="name" required />
 										</div>
 										<div class="field half">
 											<label for="email">Email</label>
-											<input type="text" name="email" id="email" />
+											<input type="email" name="email" id="email" required />
 										</div>
 										<div class="field">
 											<label for="message">Сообщение</label>
-											<textarea name="message" id="message" rows="4"></textarea>
+											<textarea name="message" id="message" rows="4" required></textarea>
 										</div>
 									</div>
 									<ul class="actions">
@@ -126,7 +127,39 @@
 			<script src="{% static 'main/assets/js/util.js' %}"></script>
 			<script src="{% static 'main/assets/js/main.js' %}"></script>
 
-			{% block extra_js %}{% endblock %}
+			{% block extra_js %}
+			<script>
+				$(document).ready(function() {
+					$('#contact form').on('submit', function(e) {
+						e.preventDefault();
+						var $form = $(this);
+						var $submitBtn = $form.find('input[type="submit"]');
+						var originalVal = $submitBtn.val();
+						
+						$submitBtn.val('Отправка...').prop('disabled', true);
+						
+						$.ajax({
+							type: 'POST',
+							url: $form.attr('action'),
+							data: $form.serialize(),
+							success: function(response) {
+								alert(response.message);
+								$form[0].reset();
+								$submitBtn.val(originalVal).prop('disabled', false);
+							},
+							error: function(xhr) {
+								var msg = 'Произошла ошибка при отправке.';
+								if (xhr.responseJSON && xhr.responseJSON.message) {
+									msg = xhr.responseJSON.message;
+								}
+								alert(msg);
+								$submitBtn.val(originalVal).prop('disabled', false);
+							}
+						});
+					});
+				});
+			</script>
+			{% endblock %}
 
 	</body>
 </html>
