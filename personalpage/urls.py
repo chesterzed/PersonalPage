@@ -10,8 +10,8 @@ from wagtail.documents import urls as wagtaildocs_urls
 from personalpage.views import get_project_details
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('cms/', include(wagtailadmin_urls)),
+    path(f'{settings.ADMIN_PATH}/', admin.site.urls),
+    path(f'{settings.CMS_PATH}/', include(wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),
     
     # AJAX project details

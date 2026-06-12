@@ -94,7 +94,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'personalpage.wsgi.application'
-
+ADMIN_PATH=os.getenv('ADMIN_PATH', 'vowvu8to38wjtvom39jrv39r')
+CMS_PATH=os.getenv('CMS_PATH', 'kavsdjavow39vaawed')
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
