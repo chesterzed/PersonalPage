@@ -2,6 +2,13 @@
 
 <h2 class="major">{{ page.title }}</h2>
 
+{% if page.release_date %}
+<p style="margin-bottom: 1.5em; font-size: 0.9em; color: rgba(255,255,255,0.6);">
+    Released: {{ page.release_date|date:"d/m/Y" }}<br>
+    Implementation, from: {% if page.start_date %}{{ page.start_date|date:"d/m/Y" }}{% else %}unknown{% endif %} to: {% if page.end_date %}{{ page.end_date|date:"d/m/Y" }}{% else %}unknown{% endif %}
+</p>
+{% endif %}
+
 <div class="project-body" style="padding: 1.5em; border-top: 1px solid rgba(255, 255, 255, 0.1);">
     {% for block in page.body %}
         

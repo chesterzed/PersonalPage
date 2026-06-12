@@ -101,6 +101,9 @@ class InteractiveEmbedBlock(blocks.StructBlock):
         label = 'Интерактивный проект (Unity/Wasm)'
 
 class DevelopProjectPage(Page):
+    release_date = models.DateField(blank=True, null=True, verbose_name="Дата релиза")
+    start_date = models.DateField(blank=True, null=True, verbose_name="Дата начала")
+    end_date = models.DateField(blank=True, null=True, verbose_name="Дата конца")
     short_description = models.TextField(blank=True, verbose_name="Краткое описание")
     preview = models.ForeignKey(
         'wagtailimages.Image',
@@ -123,6 +126,9 @@ class DevelopProjectPage(Page):
     ], use_json_field=True)
 
     content_panels = Page.content_panels + [
+        FieldPanel('release_date'),
+        FieldPanel('start_date'),
+        FieldPanel('end_date'),
         FieldPanel('short_description'),
         FieldPanel('preview'),
         FieldPanel('body'),

@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.core.paginator import Paginator
+from django.db.models import F
 from .models import DevelopProjectPage
 import logging
 
@@ -12,7 +13,7 @@ def index(request):
 
 def load_projects(request):
     page_num = request.GET.get('page', 1)
-    projects_list = DevelopProjectPage.objects.live().order_by('-id')
+    projects_list = DevelopProjectPage.objects.live().order_by(F('release_date').desc(nulls_last=True), '-id')
     paginator = Paginator(projects_list, 2)
     
     try:
