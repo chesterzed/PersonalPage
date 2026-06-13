@@ -32,7 +32,7 @@ else
 fi
 
 echo "▶️ Запуск Gunicorn..."
-gunicorn personalpage.wsgi:application \
+caffeinate -i -s gunicorn personalpage.wsgi:application \
     --bind 127.0.0.1:$PORT \
     --workers 2 \
     --pid "$PID_FILE" \
