@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-VENV_PATH="$PROJECT_DIR/venv/bin/activate"
+VENV_PATH="$PROJECT_DIR/.venv/bin/activate"
 PID_FILE="$PROJECT_DIR/gunicorn.pid"
 export $(grep -v '^#' "$PROJECT_DIR/.env" | xargs)
 PORT=${GUNICORN_PORT:-8002}
