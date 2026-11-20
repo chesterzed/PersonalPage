@@ -9,12 +9,28 @@ PID_FILE="$PROJECT_DIR/gunicorn.pid"
 LOG_DIR="$PROJECT_DIR/logs"
 
 # .env — те же переменные, что читает personalpage/settings.py.
-if [ -f "$ENV_FILE" ]; then
-  set -a
-  # shellcheck disable=SC1090
-  . "$ENV_FILE"
-  set +a
-fi
+# Читаем как данные, а не через `source`: в SECRET_KEY бывают $, ` и кавычки,
+# которые bash принял бы за подстановку (а при set -u упал бы на «$abc»).
+# Формат как у python-dotenv: KEY=value, значение можно взять в '...' или "...".
+load_env() {
+  local line key val
+  while IFS= read -r line || [ -n "$line" ]; do
+    line="${line%$'\r'}"
+    case "$line" in ''|'#'*) continue ;; esac
+    line="${line#export }"
+    case "$line" in *=*) ;; *) continue ;; esac
+    key="${line%%=*}"
+    val="${line#*=}"
+    key="$(printf '%s' "$key" | tr -d '[:space:]')"
+    case "$key" in ''|*[!A-Za-z0-9_]*|[0-9]*) continue ;; esac
+    case "$val" in
+      \"*\") val="${val#\"}"; val="${val%\"}" ;;
+      \'*\') val="${val#\'}"; val="${val%\'}" ;;
+    esac
+    export "$key=$val"
+  done < "$ENV_FILE"
+}
+[ -f "$ENV_FILE" ] && load_env
 
 PORT="${GUNICORN_PORT:-8000}"
 WORKERS="${GUNICORN_WORKERS:-3}"
