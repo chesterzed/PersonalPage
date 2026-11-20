@@ -146,4 +146,9 @@ cython_debug/
 .DS_Store
 Thumbs.db
 
+<<<<<<< Updated upstream
 gunicorn.pid
+=======
+# Service logs
+logs/
+>>>>>>> Stashed changes

@@ -14,7 +14,18 @@ echo "=========================================="
 
 cd "$PROJECT_DIR"
 
+<<<<<<< Updated upstream
 # 1. Запуск Gunicorn (слушает локальный порт 8002)
+=======
+# Если стоит служба launchd (service-install.sh), сайтом управляет она.
+. "$PROJECT_DIR/scripts/_common.sh"
+if service_installed; then
+    echo "❌ Сайт запускает служба $SERVICE_LABEL. Перезапуск: scripts/restart.sh"
+    exit 1
+fi
+
+# 1. Запуск Gunicorn (слушает локальный порт 8000)
+>>>>>>> Stashed changes
 if [ -f "$PID_FILE" ] && kill -0 $(cat "$PID_FILE") 2>/dev/null; then
     echo "⚠️ Gunicorn уже запущен (PID: $(cat $PID_FILE))."
 else

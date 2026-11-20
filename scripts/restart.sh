@@ -12,6 +12,14 @@ echo "=========================================="
 
 cd "$PROJECT_DIR"
 
+# Со службой launchd перезапускаем её (нужен sudo).
+. "$PROJECT_DIR/scripts/_common.sh"
+if service_installed; then
+    echo "▶️ Перезапуск службы $SERVICE_LABEL..."
+    sudo launchctl kickstart -k "system/$SERVICE_LABEL" && wait_up
+    exit $?
+fi
+
 # 1. Остановка Gunicorn
 if [ -f "$PID_FILE" ]; then
     PID=$(cat "$PID_FILE")
